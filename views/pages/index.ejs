@@ -1,0 +1,46 @@
+<% include header %>
+<h1> Gestionnaire  </h1>
+<style>.ui.button span { font-size: 11px; color: black;}</style>
+<form action="/" method="post" class="ui form">
+<% if (locals.niv === undefined || locals.niv === 'niv1' ) { %>  
+<button name="accident" class="ui red button" value='ok'>Accident<br /><span>appel urgence</span></button>
+<button class="ui orange button">Litige</button>
+<button class="ui yellow button">Voirie</button>
+<button class="ui olive button">Locaux</button>
+<button class="ui green button">Espaces Verts<br /><span>Entretien</span></button>
+<button class="ui teal button">Gaz</button>
+<button class="ui blue button">Eau</button>
+<button class="ui violet button">EDF</button>
+<button class="ui purple button">Purple</button>
+<button class="ui black button">Black</button>
+<% } %>
+<% if (locals.niv === 'accident' ) { %>  
+<button  name="accident_route" class="ui red button" value='ok'>Accident de la route<br /><span>appel urgence</span></button>
+<button class="ui orange button">Accident ouvrier</button>
+<button class="ui yellow button">Accident employé</button>
+<button class="ui olive button">Blessures</button>
+<button class="ui green button">Autres...<br /><span>A préciser</span></button>
+<% } %>
+<% if (locals.niv === 'accident_route' ) { %>  
+<button  name="accident_grave" class="ui red button" value='ok'>Accident Grave<br /><span>appel urgence</span></button>
+<button class="ui orange button">Accident léger</button>
+<button class="ui yellow button">Accident </button>
+<button class="ui olive button">Blessures</button>
+<button class="ui green button">Autres...<br /><span>Entretien</span></button>
+<% } %>
+
+<div class="field">
+<label for="message">Saisissez votre demande</label>
+<textarea name="message" id="message" ></textarea>
+<button type="submit" class="ui blue labeled submit icon button">
+	<i class="icon edit"></i>Envoyer
+</button>
+<button name="aide" value="ok" class="ui purple labeled submit icon button">
+	<i class="icon edit"></i>Aide
+</button>
+<% if (locals.msg != undefined ) { %>  
+<input name="niv" type="text" value="<%= msg %>">
+<% } %>
+</form>
+
+<% include footer %>
