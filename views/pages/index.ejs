@@ -1,46 +1,93 @@
 <% include header %>
-<h1> Gestionnaire  </h1>
-<style>.ui.button span { font-size: 11px; color: black;}</style>
+<div class="ui two column doubling stackable grid container">
+<div class="column">
+<% if (locals.info != undefined ) { %>  
+<div ><h4><%= info.titre_demande %></h4><br /></div>
+<% } %>
+  
+   <p><i class="hand pointer icon"></i><i class="hourglass empty icon"></i>Demande du 22 12 2016<br />Encombrant 80, rue Baudin</p>
+  <p><i class="hand pointer icon"></i><i class="hourglass half icon"></i>Demande du 21 12 2016<br />Nettoyage voirie 4, rue des vergers</p>
+  <p><i class="hand pointer icon"></i><i class="hourglass full icon"></i>Demande du 15 12 2016<br />Nettoyage voirie 3, rue Baudin</p>
+
+
+  </div>
+  <div class="column">  
+<h1> Gestionnaire d'évènements </h1>
+<style>.ui.button { margin: 0.2em;} .ui.button span { font-size: 11px; color: black;} .ui.form input[type=text] {margin: 0.2em 0px;}</style>
 <form action="/" method="post" class="ui form">
-<% if (locals.niv === undefined || locals.niv === 'niv1' ) { %>  
-<button name="accident" class="ui red button" value='ok'>Accident<br /><span>appel urgence</span></button>
-<button class="ui orange button">Litige</button>
-<button class="ui yellow button">Voirie</button>
+
+<% if (locals.niv === undefined || locals.niv === 'niv1' ) { %> 
+
+<button name="Véhicule" class="ui orange button">Véhicule</button>
+<button name="voirie" class="ui yellow button" value='ok'>Voirie<br /><span>Intervention</span></button>
 <button class="ui olive button">Locaux</button>
 <button class="ui green button">Espaces Verts<br /><span>Entretien</span></button>
 <button class="ui teal button">Gaz</button>
 <button class="ui blue button">Eau</button>
 <button class="ui violet button">EDF</button>
-<button class="ui purple button">Purple</button>
-<button class="ui black button">Black</button>
+<button class="ui purple button">Réunion</button>
+<button class="ui black button">Absence</button>
+<button name="accident" class="ui red button" value='ok'>Accident<br /><span>appel urgence</span></button>
 <% } %>
+
+<% if (locals.niv === 'voirie' ) { %>  
+<button class="ui yellow button">Nettoyage voirie</button>
+<button name="voirie_encombrant"  value='ok' class="ui yellow button">Enlèvement encombrant</button>
+<button class="ui yellow button">Réparation</button>
+<button class="ui red button">Urgence</button>
+<button class="ui yellow button">Autres...<br /><span>A préciser</span></button>
+<% } %>
+
+<% if (locals.niv === 'voirie_encombrant' ) { %>  
+<button class="ui yellow button">Gros Electroménager</button>
+<button class="ui yellow button" value='ok'>Gros Mobilier</button>
+<button class="ui yellow button">Literie</button>
+<button class="ui yellow button">Matériel Informatique</button>
+<button class="ui yellow button">Petit Electroménager</button>
+<button class="ui yellow button">Planche</button>
+<button class="ui yellow button">Sanitaire</button>
+<button class="ui yellow button">Tapis</button>
+<button class="ui yellow button">Autres...<br /><span>A préciser</span></button>
+<% } %>
+
 <% if (locals.niv === 'accident' ) { %>  
 <button  name="accident_route" class="ui red button" value='ok'>Accident de la route<br /><span>appel urgence</span></button>
-<button class="ui orange button">Accident ouvrier</button>
-<button class="ui yellow button">Accident employé</button>
-<button class="ui olive button">Blessures</button>
-<button class="ui green button">Autres...<br /><span>A préciser</span></button>
+<button class="ui red button">Accident ouvrier</button>
+<button class="ui red button">Accident employé</button>
+<button class="ui red button">Blessures</button>
+<button class="ui red button">Autres...<br /><span>A préciser</span></button>
 <% } %>
 <% if (locals.niv === 'accident_route' ) { %>  
 <button  name="accident_grave" class="ui red button" value='ok'>Accident Grave<br /><span>appel urgence</span></button>
-<button class="ui orange button">Accident léger</button>
-<button class="ui yellow button">Accident </button>
-<button class="ui olive button">Blessures</button>
-<button class="ui green button">Autres...<br /><span>Entretien</span></button>
+<button class="ui red button">Accident léger</button>
+<button class="ui red button">Accident </button>
+<button class="ui red button">Blessures</button>
+<button class="ui red button">Autres...<br /><span>Entretien</span></button>
 <% } %>
 
+<% if (locals.niv === 'accident_grave' ) { %>  
+<button  name="accident_grave" class="ui red button" value='ok'>Accident Grave<br /><span>appel urgence</span></button>
+<% } %>
+<% if (locals.msg != undefined ) { %>  
+<input name="niv" type="text" value="<%= msg %>">
+<% } %>
+<% if (locals.info != undefined ) { %>  
+<div ><h4><%= info.text %></h4></div>
+<% } %>
+
+<% if (locals.saisie === 'ok' ) { %>  
 <div class="field">
 <label for="message">Saisissez votre demande</label>
 <textarea name="message" id="message" ></textarea>
 <button type="submit" class="ui blue labeled submit icon button">
 	<i class="icon edit"></i>Envoyer
 </button>
+<% } %>
+<% if (locals.niv === 'out' ) { %>  
 <button name="aide" value="ok" class="ui purple labeled submit icon button">
 	<i class="icon edit"></i>Aide
 </button>
-<% if (locals.msg != undefined ) { %>  
-<input name="niv" type="text" value="<%= msg %>">
 <% } %>
 </form>
-
+</div>
 <% include footer %>
