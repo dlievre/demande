@@ -6,7 +6,7 @@ var express = require('express')
 var app = express()
 
 // ***** Middleware *****
-// init body-parser , format request d'un form
+// init body-parser, format request d'un form
 var bodyParser = require('body-parser')
 app.use(bodyParser.json()) // pour format json
 var multer = require('multer')
@@ -40,17 +40,16 @@ var init = 'init';
 // ***** routes *****
 app.post('/', upload.array(), (request, response) => {
 	var sess = request.session
-	// if (request.body.message === undefined || request.body.message === ''){
-	// 	response.render('pages/index', {error: "vous n'avez pas saisi de message :"})
-	// } 
+
 	var info = new Object()
 	info.titre_demande = "Dernières demandes"
+	var menu = 'index'
 
 		if (request.body.voirie){
 			init = 'non'
-			response.render('pages/index', {niv: "voirie", msg:"Intervention voirie", info })
+			response.render('pages/index', {menu, niv: "voirie", msg:"Intervention voirie", info })
 	}
-			if (request.body.voirie_encombrant){
+		if (request.body.voirie_encombrant){
 			response.render('pages/index', {niv: "voirie_encombrant", msg:"Intervention voirie - Encombrant", saisie: 'ok', info })
 	}
 
@@ -63,15 +62,14 @@ app.post('/', upload.array(), (request, response) => {
 		if (request.body.accident_grave === 'ok' ){
 			response.render('pages/index', {niv: "accident_grave", msg:"Information :  accident grave de la route", saisie: 'ok' })
 	}
-
-			if (request.body.litige === 'ok' ){
+		if (request.body.litige === 'ok' ){
 			init = 'non'
 			response.render('pages/index', {niv: "litige", msg:"Information : litige", btn: ['interne', 'client', 'commercial'] })
 	}
 
 		if (request.body.message){
-			var msg = 'Votre message est transmis : '+request.body.message
-		response.render('pages/index', {msg, saisie: 'no', info  })
+			msg = 'Votre message est transmis : '+request.body.demande+' : '+request.body.message
+		response.render('pages/index', {msg, saisie: 'no', info})
 	}
 		if (request.body.aide === 'ok' ){
 			var msg = 'débrouille-toi'
@@ -92,6 +90,7 @@ app.post('/', upload.array(), (request, response) => {
 	console.log('session = '+sess)
 	console.log('Cookies: ', request.cookies)
 	console.log('Signed Cookies: ', request.signedCookies)
+	console.log('demande = '+request.body.demande)
 	console.log('message = '+request.body.message)
 	console.log('accident = '+request.body.accident)
 	console.log('voirie = '+request.body.voirie)
@@ -102,12 +101,14 @@ app.post('/', upload.array(), (request, response) => {
 
 app.get('/map', upload.array(), (request, response) => {
 	var sess = request.session
-	response.render('pages/map', {msg: '3, rue Baudin - Levallois Perret'})
+	var menu = 'map'
+	response.render('pages/map', {menu, msg: '3, rue Baudin - Levallois Perret'})
 })
 
 
 app.get('/', (request, response) => {
-
+	var sess = request.session
+	var menu = 'index'
 	var test = Date.now();
 	var test = Date('year')
 	//response.render('pages/index', {test: 'salut'})
@@ -115,7 +116,7 @@ app.get('/', (request, response) => {
 	info.titre_demande = "Dernières demandes"
 	info.titre = 'info'
 	info.text = "Choisissez l'évènement"
-	response.render('pages/index', {info})
+	response.render('pages/index', {menu, info})
 	console.log('Get = '+request.body)
 })
 

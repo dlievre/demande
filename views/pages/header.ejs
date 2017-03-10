@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>titre</title>
+<title>Gestion </title>
 <link rel="stylesheet" href="/semantic/semantic.min.css">
 <style>
 .main.container{ margin-top: 7em; }
 </style>
 </head>
 <body>
-<div class="ui fixed inverted menu">
-<a href="/" class="header item"><i class="home icon"></i> Accueil</a>
-<a href="/" class="header item"><i class="signal icon"></i> Login DLievre</a>
-<a href="/" class="header item"><i class="settings icon"></i> Settings</a>
-<a href="/map" class="header item"><i class="street view icon"></i> Cartographie</a>
 
+<div class="ui fixed inverted menu">
+<% if (locals.menu == 'index') { %>
+<a href="/" class="header active item"><i class="home icon"></i>Accueil</a>
+<a href="/map" class="header item"><i class="street view icon"></i>Cartographie</a>
+<a href="/" class="header item"><i class="signal icon"></i>Login DLievre</a>
+<a href="/" class="header item"><i class="settings icon"></i>Settings</a>
+<% } %>
+<% if (locals.menu == 'map') { %>
+<a href="/" class="header item"><i class="home icon"></i>Accueil</a>
+<a href="/map" class="header active item"><i class="street view icon"></i>Cartographie</a>
+<a href="/" class="header item"><i class="signal icon"></i>Login DLievre</a>
+<a href="/" class="header item"><i class="settings icon"></i>Settings</a>
+<% } %>
 </div>
 <div class="ui main container">
-<% if (locals.error) { %>
-<div class="ui negative message"><p><%= error %></p></div>
-<% } %>
+<% if (locals.error) { %><div class="ui negative message"><p><%= error %></p></div><% } %>
