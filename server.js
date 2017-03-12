@@ -2,6 +2,10 @@ console.log('serveur start')
 // depuis la video : https://www.youtube.com/watch?v=Q8wacXNngXs
 
 // init express
+/**
+* @expressmodule
+*/
+/* @express - moduleb*/
 var express = require('express')
 var app = express()
 
@@ -37,7 +41,28 @@ app.use(express.static('public')) // route static du dossier public
 
 var init = 'init';
 
+// @Routes 
+
 // ***** routes *****
+app.get('/superuser', upload.array(), (request, response) => {
+	var sess = request.session
+	console.log('srv link superuser')
+//	var test = require('./test')
+	// app.use(test())
+	// var b = test
+	// var c = b.readcode
+	// console.log(c)
+	// response.render('pages/index', {menu: 'index', niv: "voirie", msg:"Intervention voirie", info: 'test' })
+
+
+//console.log(typeof tools.readcode)
+//var test = superuser()
+//app.use(superuser.readcode())
+
+//console.log('test.readcode '+ test.readcode)
+
+})
+
 app.post('/', upload.array(), (request, response) => {
 	var sess = request.session
 
@@ -50,31 +75,35 @@ app.post('/', upload.array(), (request, response) => {
 			response.render('pages/index', {menu, niv: "voirie", msg:"Intervention voirie", info })
 	}
 		if (request.body.voirie_encombrant){
-			response.render('pages/index', {niv: "voirie_encombrant", msg:"Intervention voirie - Encombrant", saisie: 'ok', info })
+			response.render('pages/index', {menu, niv: "voirie_encombrant", msg:"Intervention voirie - Encombrant", saisie: 'no', info })
 	}
 
+		if (request.body.voirie_mobilier){
+			response.render('pages/index', {menu, niv: "voirie_mobilier", msg:"Intervention voirie - Encombrant : Mobilier", saisie: 'ok', info })
+	}
 		if (request.body.accident){
-			response.render('pages/index', {niv: "accident", msg:"Information : accident", saisie: 'no', info })
+			response.render('pages/index', {menu, niv: "accident", msg:"Information : accident", saisie: 'no', info })
 	}
 		if (request.body.accident_route === 'ok' ){
-			response.render('pages/index', {niv: "accident_route", msg:"Information : accident de la route", saisie: 'no', info })
+			response.render('pages/index', {menu, niv: "accident_route", msg:"Information : accident de la route", saisie: 'no', info })
 	}
 		if (request.body.accident_grave === 'ok' ){
-			response.render('pages/index', {niv: "accident_grave", msg:"Information :  accident grave de la route", saisie: 'ok' })
+			response.render('pages/index', {menu, niv: "accident_grave", msg:"Information :  accident grave de la route", saisie: 'ok' })
 	}
 		if (request.body.litige === 'ok' ){
 			init = 'non'
-			response.render('pages/index', {niv: "litige", msg:"Information : litige", btn: ['interne', 'client', 'commercial'] })
+			response.render('pages/index', {menu, niv: "litige", msg:"Information : litige", btn: ['interne', 'client', 'commercial'] })
 	}
 
 		if (request.body.message){
-			msg = 'Votre message est transmis : '+request.body.demande+' : '+request.body.message
-		response.render('pages/index', {msg, saisie: 'no', info})
+			msg = 'Votre message est transmis au service concerné : '+request.body.demande+' : '+request.body.message
+		response.render('pages/index', {menu, msg, saisie: 'no', info})
 	}
 		if (request.body.aide === 'ok' ){
 			var msg = 'débrouille-toi'
 		response.render('pages/index', {msg})
 	}
+
 
 
 
