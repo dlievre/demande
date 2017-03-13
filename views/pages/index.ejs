@@ -36,8 +36,8 @@
 <% } %>
 
 <% if (locals.niv === 'voirie_encombrant' ) { %>  
-<button class="ui yellow button">Gros Electroménager</button>
-<button class="ui yellow button" value='ok'>Gros Mobilier</button>
+<button class="ui yellow button">Electroménager</button>
+<button name="voirie_mobilier" class="ui yellow button" value='ok'>Mobilier</button>
 <button class="ui yellow button">Literie</button>
 <button class="ui yellow button">Matériel Informatique</button>
 <button class="ui yellow button">Petit Electroménager</button>
@@ -46,6 +46,8 @@
 <button class="ui yellow button">Tapis</button>
 <button class="ui yellow button">Autres...<br /><span>A préciser</span></button>
 <% } %>
+
+
 
 <% if (locals.niv === 'accident' ) { %>  
 <button  name="accident_route" class="ui red button" value='ok'>Accident de la route<br /><span>appel urgence</span></button>
@@ -65,8 +67,18 @@
 <% if (locals.niv === 'accident_grave' ) { %>  
 <button  name="accident_grave" class="ui red button" value='ok'>Accident Grave<br /><span>appel urgence</span></button>
 <% } %>
+
 <% if (locals.msg != undefined ) { %><input name="niv" type="text" value="<%= msg %>"><% } %>
 <% if (locals.info != undefined ) { %><div><h4><%= info.text %></h4></div><% } %>
+
+
+<% if (locals.niv === 'voirie_mobilier' ) { %>  
+<div class="ui checkbox"><input name="meuble1" type="checkbox"><label>Meuble Léger </label></div><br/>
+<div class="ui checkbox"><input name="meuble2" type="checkbox"><label>Meuble Lourd </label></div><br/>
+<div class="ui checkbox"><input name="meuble3" type="checkbox"><label>Meuble Imposant </label></div><br/>
+<div class="ui toggle checkbox"><input name="public" type="checkbox"><label>Nettoyage voirie </label></div>
+<br/>
+<% } %>
 
 <% if (locals.saisie === 'ok' ) { %>  
 <div class="field">

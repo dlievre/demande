@@ -25,3 +25,6 @@
 </div>
 <div class="ui main container">
 <% if (locals.error) { %><div class="ui negative message"><p><%= error %></p></div><% } %>
+<% if (locals.error == 'out') { %>
+<a href="/superuser" class="header item"><i class="settings icon"></i>Super User</a>
+<% } %>
