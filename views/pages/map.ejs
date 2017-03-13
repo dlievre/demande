@@ -1,36 +1,29 @@
 <% include header %>
 <h2> Cartographie d'évènements </h2>
-<% if (locals.msg ) { %>
-<%= msg %>
+<% if (locals.info.adresse) { %>
+<%= info.adresse %>
 <% } %>
-<link rel="stylesheet" href="https://openlayers.org/en/v4.0.1/css/ol.css" type="text/css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+
 <style>
-  .map {
-    height: 500px;
-    width: 100%;
-    border: solid black 2px;
-  }
+#mapid { height: 380px; width: 100%; border: solid black 2px;}
 </style>
 
-<script src="https://openlayers.org/en/v4.0.1/build/ol.js" type="text/javascript"></script>
-<div id="map" class="map"></div>
-    <script type="text/javascript">
-      var map = new ol.Map({
-        target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([2.3234, 48.8887]),
-          zoom: 10
-          })
-      });
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+<div id="mapid"></div>   
+
+<script type="text/javascript">
+
+      var mymap = L.map('mapid').setView([<%= lat %>, <%= lon %>], 13)
+      L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(mymap);
+    //  var searchControl = L.control.photon(photonControlOptions);
+   // searchControl.addTo(map);
+
+L.marker([<%= lat %>, <%= lon %>]).addTo(mymap)
+    .bindPopup('<%= info.adresse %>')
+    //.openPopup();
+      
     </script>
 </div>
-<% if (locals.info != undefined ) { %>  
-<input name="text" type="text" value="<%= info.text %>">
-<% } %>
 
 <% include footer %>

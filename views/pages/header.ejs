@@ -10,13 +10,13 @@
 <body>
 
 <div class="ui fixed inverted menu">
-<% if (locals.menu == 'index') { %>
+<% if (locals.info.menu == 'index') { %>
 <a href="/" class="header active item"><i class="home icon"></i>Accueil</a>
 <a href="/map" class="header item"><i class="street view icon"></i>Cartographie</a>
 <a href="/" class="header item"><i class="signal icon"></i>Login DLievre</a>
 <a href="/" class="header item"><i class="settings icon"></i>Settings</a>
 <% } %>
-<% if (locals.menu == 'map') { %>
+<% if (locals.info.menu == 'map') { %>
 <a href="/" class="header item"><i class="home icon"></i>Accueil</a>
 <a href="/map" class="header active item"><i class="street view icon"></i>Cartographie</a>
 <a href="/" class="header item"><i class="signal icon"></i>Login DLievre</a>

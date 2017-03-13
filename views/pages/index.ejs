@@ -1,22 +1,26 @@
+
 <% include header %>
 <div class="ui two column doubling stackable grid container">
 <div class="column">
 <% if (locals.info != undefined ) { %><div ><h4><%= info.titre_demande %></h4><br /></div><% } %>
-
 <p><i class="hand pointer icon"></i><i class="hourglass empty icon"></i>Demande du 22 12 2016<br />Encombrant 80, rue Baudin</p>
 <p><i class="hand pointer icon"></i><i class="hourglass half icon"></i>Demande du 21 12 2016<br />Nettoyage voirie 4, rue des vergers</p>
-<p><i class="hand pointer icon"></i><i class="hourglass full icon"></i>Demande du 15 12 2016<br />Nettoyage voirie 3, rue Baudin</p>
+<form action="/" method="post" class="ui form">
+<p><i class="hand pointer icon"></i><i class="hourglass full icon"></i>Demande du 15 12 2016<br />Nettoyage voirie 3, rue Baudin 
+<button class="circular ui icon button" name="mapbaudin" value='3, rue Baudin - Levallois Perret' ><i class="street view icon"></i></button></p>
+</form>
 
 </div>
 <div class="column">  
 <h1> Gestionnaire d'évènements </h1>
 <style>.ui.button { margin: 0.2em;} .ui.button span { font-size: 11px; color: black;} .ui.form input[type=text] {margin: 0.2em 0px;}</style>
-<form action="/" method="post" class="ui form">
-<% if (locals.niv) { %><input type="text" name="demande" value="<%= niv %>" hidden></input><% } %>
-<% if (locals.niv === undefined || locals.niv === 'niv1' ) { %> 
+<form action="/" method="post">
+<% if (locals.info.niv) { %><input type="text" name="demande" value="<%= info.niv %>" hidden></input><% } %>
+<% if (locals.info.niv === undefined || locals.info.niv === 'home' ) { %> 
 
 <button name="Véhicule" class="ui orange button">Véhicule</button>
 <button name="voirie" class="ui yellow button" value='ok'>Voirie<br /><span>Intervention</span></button>
+
 <button class="ui olive button">Locaux</button>
 <button class="ui green button">Espaces Verts<br /><span>Entretien</span></button>
 <button class="ui teal button">Gaz</button>
@@ -27,7 +31,7 @@
 <button name="accident" class="ui red button" value='ok'>Accident<br /><span>appel urgence</span></button>
 <% } %>
 
-<% if (locals.niv === 'voirie' ) { %>  
+<% if (locals.info.niv === 'voirie' ) { %>  
 <button class="ui yellow button">Nettoyage voirie</button>
 <button name="voirie_encombrant"  value='ok' class="ui yellow button">Enlèvement encombrant</button>
 <button class="ui yellow button">Réparation</button>
@@ -35,7 +39,7 @@
 <button class="ui yellow button">Autres...<br /><span>A préciser</span></button>
 <% } %>
 
-<% if (locals.niv === 'voirie_encombrant' ) { %>  
+<% if (locals.info.niv === 'voirie_encombrant' ) { %>  
 <button class="ui yellow button">Electroménager</button>
 <button name="voirie_mobilier" class="ui yellow button" value='ok'>Mobilier</button>
 <button class="ui yellow button">Literie</button>
@@ -49,14 +53,14 @@
 
 
 
-<% if (locals.niv === 'accident' ) { %>  
+<% if (locals.info.niv === 'accident' ) { %>  
 <button  name="accident_route" class="ui red button" value='ok'>Accident de la route<br /><span>appel urgence</span></button>
 <button class="ui red button">Accident ouvrier</button>
 <button class="ui red button">Accident employé</button>
 <button class="ui red button">Blessures</button>
 <button class="ui red button">Autres...<br /><span>A préciser</span></button>
 <% } %>
-<% if (locals.niv === 'accident_route' ) { %>  
+<% if (locals.info.niv === 'accident_route' ) { %>  
 <button  name="accident_grave" class="ui red button" value='ok'>Accident Grave<br /><span>appel urgence</span></button>
 <button class="ui red button">Accident léger</button>
 <button class="ui red button">Accident </button>
@@ -64,15 +68,16 @@
 <button class="ui red button">Autres...<br /><span>Entretien</span></button>
 <% } %>
 
-<% if (locals.niv === 'accident_grave' ) { %>  
+<% if (locals.info.niv === 'accident_grave' ) { %>  
 <button  name="accident_grave" class="ui red button" value='ok'>Accident Grave<br /><span>appel urgence</span></button>
 <% } %>
 
-<% if (locals.msg != undefined ) { %><input name="niv" type="text" value="<%= msg %>"><% } %>
-<% if (locals.info != undefined ) { %><div><h4><%= info.text %></h4></div><% } %>
+<% if (locals.info.msg != undefined && locals.info.msg != '') { %><input name="niv" type="text" value="<%= info.msg %>"><% } %>
+<% if (locals.info != undefined ) { %><div><h4><%= info.text %></0.3
+h4></div><% } %>
 
 
-<% if (locals.niv === 'voirie_mobilier' ) { %>  
+<% if (locals.info.niv === 'voirie_mobilier' ) { %>  
 <div class="ui checkbox"><input name="meuble1" type="checkbox"><label>Meuble Léger </label></div><br/>
 <div class="ui checkbox"><input name="meuble2" type="checkbox"><label>Meuble Lourd </label></div><br/>
 <div class="ui checkbox"><input name="meuble3" type="checkbox"><label>Meuble Imposant </label></div><br/>
@@ -80,13 +85,13 @@
 <br/>
 <% } %>
 
-<% if (locals.saisie === 'ok' ) { %>  
+<% if (locals.info.saisie === 'yes' ) { %>  
 <div class="field">
 <label for="message">Saisissez votre demande</label>
 <textarea name="message" id="message" ></textarea>
 <button type="submit" class="ui blue labeled submit icon button"><i class="icon edit"></i>Envoyer</button>
 <% } %>
-<% if (locals.niv === 'out' ) { %>  
+<% if (locals.info.niv === 'out' ) { %>  
 <button name="aide" value="ok" class="ui purple labeled submit icon button"><i class="icon edit"></i>Aide</button>
 <% } %>
 </form>
