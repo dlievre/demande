@@ -6,6 +6,9 @@ console.log('serveur start')
 var express = require('express')
 var app = express()
 
+
+
+
 // @ body-parser, formate le request d'un form
 var bodyParser = require('body-parser')
 app.use(bodyParser.json()) // pour format json
@@ -32,6 +35,10 @@ app.use(session({
 // @ gestion des requete http
 let reqhttp = require('request')// module requete http
 
+// ***** modules perso
+// @ map module gestion de la map
+var map = require('./map')
+
 
 // ***** moteur template *****
 app.set('view engine', 'ejs')
@@ -40,24 +47,7 @@ app.use(express.static('public')) // route static du dossier public
 var init = 'init';
 
 // ***** routes *****
-app.get('/superuser', upload.array(), (request, response) => {
-	var sess = request.session
-	console.log('srv link superuser')
-//	var test = require('./test')
-	// app.use(test())
-	// var b = test
-	// var c = b.readcode
-	// console.log(c)
-	// response.render('pages/index', {menu: 'index', niv: "voirie", msg:"Intervention voirie", info: 'test' })
 
-
-//console.log(typeof tools.readcode)
-//var test = superuser()
-//app.use(superuser.readcode())
-
-//console.log('test.readcode '+ test.readcode)
-
-})
 
 app.post('/', upload.array(), (request, response) => {
 	var sess = request.session
@@ -134,10 +124,10 @@ app.post('/', upload.array(), (request, response) => {
 		response.render('pages/index', {msg})
 	}
 
-if (request.body.mapbaudin){ 
+if (request.body.map){ 
 	info.menu = 'map'
 	info.page = 'pages/map'
-	info.adresse = request.body.mapbaudin
+	info.adresse = request.body.map
 	map(request, response, info)
 	
 }
@@ -171,38 +161,29 @@ if (request.body.mapbaudin){
 	info.lat = 48.8946566
 	info.long = 2.2753577
 
-	info.lat =  48.8965715
-    info.long =  2.2808611
-
 console.log ('map : '+info.adresse)
 	map(request, response, info)
 
+})
 
-	//response.render('pages/map', {menu, msg: '3, rue Baudin - Levallois Perret'})
+	app.get('/superuser', upload.array(), (request, response) => {
+	var sess = request.session
 
-    // var openadresse = function(adresse, callback){
-    //    adresse = adresse.replace(/^\s*|\s*$/,'')
-    //    adresse = adresse.replace(/[ ]{2,}/, '%20')
-    //    var latitude 
-    //    var longitude
-    //     //var url = "http://nominatim.openstreetmap.org/search.php?q=125%3rue%20baudin,Levallois-perret%20,%20france&format=json" 
-    //     var url = "http://nominatim.openstreetmap.org/search.php?q="+adresse+"&format=json" 
-    //     reqhttp(url, function(err, response, body){
-    //       try{
-    //         var result = JSON.parse(body)
-    //         latitude = result[0].lat
-    //         longitude = result[0].lon
-    //         callback(result)
-    //        }
-    //        catch(e){
-    //          callback(e)
-    //        }
-    //     })
-    // }
-    // openadresse(info.adresse,  function (latlong){
-    //  //if (err) return console.log(err);
-    //  response.render(info.page, {info, lat: latlong[0].lat, lon: latlong[0].lon})
-    // })
+console.log ('super user : ')
+
+	var info = new Object()
+	info.menu = 'superuser'
+	info.page = 'pages/superuser'
+	info.login = ''
+
+	let Cbase = require('./CBase')
+	var obj = new Object()
+	obj.users = Cbase.readUsers()
+	//obj.sites = Cbase.readSites()
+	console.log(obj.users )
+
+
+
 
 })
 
@@ -225,36 +206,3 @@ app.get('/', (request, response) => {
 })
 
 app.listen(8081)
-
-function map (request, response, info){
-	if (info.adresse && !info.lat){
-	    var openadresse = function(adresse, callback){
-	       adresse = adresse.replace(/^\s*|\s*$/,'')
-	       adresse = adresse.replace(/[ ]{2,}/, '%20')
-	        //var url = "http://nominatim.openstreetmap.org/search.php?q=125%3rue%20baudin,Levallois-perret%20,%20france&format=json" 
-	        var url = "http://nominatim.openstreetmap.org/search.php?q="+adresse+"&format=json" 
-	        reqhttp(url, function(err, response, body){
-				try{
-			        var result = JSON.parse(body)
-			        callback(result)
-				}
-				catch(e){
-		        	callback(e)
-				}
-	        })
-	    }
-	    
-	    openadresse(info.adresse,  function (latlong)
-	    {
-	     //if (err) return console.log(err);
-   		response.render(info.page, {info, lat: latlong[0].lat, lon: latlong[0].lon})
-		})
-  
-    } // info.adresse
-   	if (info.lat){
-		response.render(info.page, {info, lat: info.lat, lon: info.long})
-	}
-}
-
-function test(request, response, info){
-}
